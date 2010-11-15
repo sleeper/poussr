@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '../lib/', 'poussr_rest_api.rb')
+require File.join(File.dirname(__FILE__), '../lib/poussr', 'rest_api.rb')
 
 require 'rubygems'
 require 'sinatra'
