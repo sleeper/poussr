@@ -5,10 +5,12 @@ require 'poussr/channel'
 
 module Poussr
   class RESTApi < Sinatra::Base
+
+    post '/v1/channels/:channel/events' do
+      c = Channel.find_or_create( params[:channel] )
+      c.dispatch( params[:event][:name] )
+      status(201)
+    end
     
-    get '/channels' do
-      content_type :json
-      Channel.all.to_json
-    end 
   end
 end
