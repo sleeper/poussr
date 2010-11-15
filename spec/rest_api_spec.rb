@@ -1,10 +1,11 @@
 require File.dirname(__FILE__) + '/spec_helper'
+require "poussr/channel"
 
 describe "Poussr REST API" do
   include Rack::Test::Methods
 
   def app
-    @app ||= Poussr::RESTApi#Sinatra::Application
+    @app ||= Poussr::RESTApi  
   end
 
   describe "Channel resource" do
