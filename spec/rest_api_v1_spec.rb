@@ -37,17 +37,20 @@ describe "Poussr REST API v1" do
 
     describe "POST events" do
 
-      it "should eventually create a channel" do
-        post "/v1/channels/mychannel/events", :event => {:name => "active_added"}
-#        puts "FRED : #{last_response.body}"
+      it "should create a channel (if not yet existing)" do
+        event_name = "new_active"
+        body = "This is my body"
+        post_rest "/v1/channels/mychannel/events", {:name => event_name},body
         last_response.status.should == 201
         Poussr::Channel.find('mychannel').should_not be_nil
       end
 
       it "should retrieve the correct event name" do
         c = Poussr::Channel.new('mychannel')
-        c.should_receive(:dispatch).with("active_added")
-        post "/v1/channels/mychannel/events", :event => {:name => "active_added"}
+        event_name = "new_active"
+        body = "This is my body"
+        c.should_receive(:dispatch).with(event_name,body)
+        post_rest "/v1/channels/mychannel/events", {:name => "new_active"}, body
       end
       
     end

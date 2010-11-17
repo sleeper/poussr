@@ -11,7 +11,7 @@ module Poussr
       store
     end
 
-    def dispatch(event_name)
+    def dispatch(event_name,body)
     end
     
     def store

@@ -39,4 +39,8 @@ describe "Channel" do
     end
   end
 
+  describe "dispatch" do
+    it "should receive an event name and a body"
+    
+  end
 end
