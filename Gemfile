@@ -4,6 +4,7 @@ source :gemcutter
 
 gem "sinatra"
 gem 'json'
+gem 'eventmachine'
 
 group :development, :test do
   gem "rspec"

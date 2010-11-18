@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
 require 'poussr/channel'
+require 'eventmachine'
 
 describe "Channel" do
 
@@ -13,6 +14,11 @@ describe "Channel" do
       c = Poussr::Channel.new( 'mychannel' )
       c.should_not be_nil
       Poussr::Channel.find( 'mychannel' ).should_not be_nil
+    end
+
+    it "should create a new EM::Channel" do
+      EM::Channel.should_receive(:new)
+      c = Poussr::Channel.new( 'mychannel' )
     end
     
   end
@@ -40,7 +46,16 @@ describe "Channel" do
   end
 
   describe "dispatch" do
-    it "should receive an event name and a body"
+    it "should forward to the underlying EM::Channel" do
+      name = 'myevent'
+      body = 'my event body'
+      channel = 'mychannel'
+      evt_json = {'channel' => channel, 'event' => name, 'data' => body}.to_json
+      
+      c = Poussr::Channel.new( channel )
+      c.em_channel.should_receive(:push).with(evt_json)
+      c.dispatch(name, body)
+    end
     
   end
 end
