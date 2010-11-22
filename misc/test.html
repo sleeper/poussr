@@ -1,10 +1,20 @@
 <html>
   <head>
     <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
+    <script src='poussr.js'></script>
     <script>
       $(document).ready(function(){
         function debug(str){ $("#debug").append("<p>" +  str); };
 
+        var host="127.0.0.1";
+        var port = 8080;
+
+        var socket = new Poussr(host, port, channel);
+        socket.bind('active:new', function(data) {
+            console.log("New active event received: " + data);
+        });
+
+        /*
         ws = new WebSocket("ws://localhost:8080/");
         ws.onmessage = function(evt) { $("#msg").append("<p>"+evt.data+"</p>"); };
         ws.onclose = function() { debug("socket closed"); };
@@ -12,7 +22,7 @@
           debug("connected...");
           // Bind to channel 'mychannel'
           ws.send(JSON.stringify({'event': 'poussr:subscribe', 'channel': 'mychannel'}));
-        };
+        }; */
       });
     </script>
   </head>
