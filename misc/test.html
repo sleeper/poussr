@@ -9,8 +9,8 @@
         var host="127.0.0.1";
         var port = 8080;
 
-        var socket = new Poussr(host, port, channel);
-        socket.bind('active:new', function(data) {
+        var poussr = new Poussr(host, port, channel);
+        poussr.subscribe('active:new', function(data) {
             console.log("New active event received: " + data);
         });
 

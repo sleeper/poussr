@@ -25,7 +25,6 @@ module Poussr
 
         ws.onmessage { |msg|
           # Let's check the message
-          # FIXME: Ensure we have JSON ...
           begin
             msg_event = JSON.parse(msg)
           rescue JSON::ParserError => e
