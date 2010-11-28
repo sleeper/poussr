@@ -5,7 +5,7 @@
  * subscribe method
  */
 
-var Poussr = function(host, port, channel_name) {
+Poussr = function(host, port, channel_name) {
   this.host = host;
   this.port = port;
   this.channel_name = channel;
@@ -13,7 +13,7 @@ var Poussr = function(host, port, channel_name) {
   this.connected = false;
 
   this.connect();
-}
+};
 
 
 Poussr.prototype = {
@@ -48,7 +48,7 @@ Poussr.prototype = {
     Poussr.log("Sending event 'poussr:subscribe' with channel name:" + this.chnanle_name);
 
     this.send_event('poussr:subscribe', JSON.stringify({'channel': this.channel_name}));
-  }
+  },
 
   /*
    * Received message is supposed to be of the following format:
@@ -92,7 +92,7 @@ Poussr.prototype = {
   }
 };
 
-Poussr.log = function(msg) { console.log(msg); }
+Poussr.log = function(msg) { console.log(msg); };
 
 Poussr.parse = function(data) {
     try {
@@ -101,4 +101,5 @@ Poussr.parse = function(data) {
     Poussr.log("Poussr : data is not valid JSON.");
     return data;
   }
-}
+};
+
