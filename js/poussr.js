@@ -57,19 +57,26 @@ Poussr.prototype = {
    */   
   onmessage: function(evt) {
     var params = Poussr.parse(evt.data);
-    var event_name = params.event;
+    var evt_name = params.event;
     var evt_data = Poussr.parse(params.data);
     var channel_name = params.channel;
     /* FIXME: 
        Check the received channel is the same as mine
     */
-
-    this.dispatch_event(event_name, event_data);
+    Poussr.log("Received event '" + evt_name + "' with data '" + evt_data + "'");
+    this.dispatch_event(evt_name, evt_data);
   },
 
   subscribe: function(event_name, callback) {
     this._callbacks[event_name] = this._callbacks[event_name] || []
     this._callbacks[event_name].push( callback );
+  },
+
+  send_event: function(evt_name, evt_data) { 
+    var payload = JSON.stringify({ 'event' : evt_name, 'data' : evt_data });
+    Poussr.log("Poussr : sending event : " + payload);
+    this._connection.send(payload);
+    return this;
   },
 
   dispatch_event: function(evt_name, evt_data) {
@@ -96,7 +103,7 @@ Poussr.parse = function(data) {
     try {
     return JSON.parse(data);
   } catch(e) {
-    Poussr.log("Poussr : data is not valid JSON.");
+    Poussr.log("Poussr: data ('" + data +"') is not valid JSON.");
     return data;
   }
 };

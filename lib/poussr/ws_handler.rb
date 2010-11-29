@@ -20,7 +20,7 @@ module Poussr
       EventMachine::WebSocket.start(:host => host, :port => port, :debug => true) do |ws|
         
         ws.onopen {
-          ws.send "connected!!!!"
+          # Someone opened a connection !!
         }
 
         ws.onmessage { |msg|
@@ -31,12 +31,15 @@ module Poussr
             STDERR.puts "Error: message is probably not JSON #{e}"
             msg_event = {'event' => ''} 
           end
-          
+          puts "FRED ==> #{msg_event['data']['channel']}"
+
           case msg_event['event']
           when 'poussr:subscribe'
             # Let's create the channel if it's not existing
             # and associate this ws to the right EM::Channel
-            WSHandler.subscribe(ws,msg_event['channel'])
+            # FIXME: Ensure data is JSON
+            data = JSON.parse(msg_event['data']);
+            WSHandler.subscribe(ws,data['channel'])
           when 'poussr::unsusbscribe'
             # Let's unbind from the channel and associated EM::Channel
             #            WSHandler.unsubscribe(ws,msg_event['channel'])

@@ -9,6 +9,7 @@ module Poussr
     attr_reader :name, :em_channel
     
     def initialize( name )
+      puts "FRED: Creating channel #{name}"
       @name = name
       @em_channel = EM::Channel.new
       store
