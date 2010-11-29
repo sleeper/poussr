@@ -5,16 +5,16 @@ describe("New Poussr object", function() {
     var p = 12345;
     var c = "mychannel";
 
-    var p = new Poussr(h, p, c);
+    var poussr = new Poussr(h, p, c);
 
-    expect(p.host()).toEqual(h);
-    expect(p.port()).toEqual(p);
-    expect(p.channel()).toEqual(c);
+    expect(poussr.host()).toEqual(h);
+    expect(poussr.channel_name()).toEqual(c);
+    expect(poussr.port()).toEqual(p);
   });
 
   it("should not be connected",function() {
-    var p = new Poussr("here", 12345, "mychannel");
-    expect(p.connected()).toEqual(false);
+    var poussr = new Poussr("here", 12345, "mychannel");
+    expect(poussr.connected()).toEqual(false);
   });
 
   it("should have no subscribers", function() {});

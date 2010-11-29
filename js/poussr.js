@@ -1,43 +1,41 @@
-/*
- * This is the communication tube from browser to Poussr
- * Each Poussr object handles one given Poussr channel
- * Client needs to subscribe to the interesting events through the 
- * subscribe method
- */
+// This is the communication tube from browser to Poussr
+// Each Poussr object handles one given Poussr channel
+// Client needs to subscribe to the interesting events through the 
+// subscribe method
+ 
 
-Poussr = function(host, port, channel_name) {
-  this.host = host;
-  this.port = port;
-  this.channel_name = channel;
-  this.callbacks = {};
-  this.connected = false;
-
-  this.connect();
+var Poussr = function(host, port, channel_name) {
+  this._host = host;
+  this._port = port;
+  this._channel_name = channel_name;
+  this._callbacks = {};
+  this._connected = false;
 };
 
 
 Poussr.prototype = {
-  channel: function() { return this.channel; },
-  host: function() { return this.host; },
-  port: function() { return this.port; },
+  channel_name: function() { return this._channel_name; },
+  host: function() { return this._host; },
+  port: function() { return this._port; },
+  connected: function() { return this._connected;},
 
   connect: function() {
-    var url = "ws://" + this.host + ":" + this.port + "/";
-
-    this.connection = new WebSocket(url);
-    
+    var url = "ws://" + this._host + ":" + this._port + "/";
     var poussr = this;
 
-    this.connection.onmessage = function() {
+    this._connection = new WebSocket(url);
+
+    this._connection.onmessage = function() {
       poussr.onmessage.apply(poussr, arguments);
     };
-    this.connection.onclose = function() {
+    this._connection.onclose = function() {
       poussr.onclose.apply(poussr, arguments);
     };
-    this.connection.onopen = function() {
-      poussrf.onopen.apply(poussr, arguments);
+    this._connection.onopen = function() {
+      poussr.onopen.apply(poussr, arguments);
     };
 
+    this._connected = true;
   },
 
   /*
@@ -45,9 +43,9 @@ Poussr.prototype = {
    * subscribe to our channel of choice.
    */
   onopen: function() {
-    Poussr.log("Sending event 'poussr:subscribe' with channel name:" + this.chnanle_name);
+    Poussr.log("Sending event 'poussr:subscribe' with channel name:" + this._channel_name);
 
-    this.send_event('poussr:subscribe', JSON.stringify({'channel': this.channel_name}));
+    this.send_event('poussr:subscribe', JSON.stringify({'channel': this._channel_name}));
   },
 
   /*
@@ -70,12 +68,12 @@ Poussr.prototype = {
   },
 
   subscribe: function(event_name, callback) {
-    this.callbacks[event_name] ||= [];
-    this.callbacks[event_name].push( callback );
+    this._callbacks[event_name] = this._callbacks[event_name] || []
+    this._callbacks[event_name].push( callback );
   },
 
   dispatch_event: function(evt_name, evt_data) {
-    var callbacks = this.callbacks[evt_name];
+    var callbacks = this._callbacks[evt_name];
     
     if (callbacks) {
       for (var i=0; i < callbacks.length; i++) {
@@ -85,7 +83,7 @@ Poussr.prototype = {
   },
   
   onclose: function() {
-    this.connected = false;
+    this._connected = false;
     /* FIXME: Handle the case when the connection went down but we
      * do want to reconnect.
      */
