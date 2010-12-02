@@ -53,7 +53,8 @@ subscription event, with channel name as data:
     poussr:subscribe / {'channel': "channel name"}
 
 The client can then subscribe to the event that interest it, using the
-'subscribe' method.
+'subscribe' method of the
+[poussr-js](git@github.com:sleeper/poussr-js.git) library.
 
     mypoussrobj.subscribe('event:tofollow', function(data) { /* the callback */ });
 
