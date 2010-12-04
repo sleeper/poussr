@@ -4,8 +4,14 @@ require 'poussr/rest_api'
 require 'poussr/ws_handler'
 require 'thin'
 
-EventMachine.run do
-  Poussr::WSHandler.start('0.0.0.0', 8080)
+require ::File.expand_path('../config/environment',  __FILE__)
 
-  Poussr::RESTApi.run!({:port => 3000})
+EventMachine.run do
+
+  cfg = Poussr::Environment.get_config
+  
+  Poussr::WSHandler.start cfg
+
+  Poussr::RESTApi.run!({:port => cfg.port })
+
 end

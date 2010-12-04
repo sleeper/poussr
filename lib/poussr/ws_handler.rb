@@ -15,9 +15,9 @@ module Poussr
       sock_id = channel.em_channel.unsubscribe {|msg| ws.send msg }
     end
 
-    def self.start(host, port)
+    def self.start(config)
       # FIXME: hardcoded host and port
-      EventMachine::WebSocket.start(:host => host, :port => port, :debug => true) do |ws|
+      EventMachine::WebSocket.start(:host => config.ws_host, :port => config.ws_port, :debug => config.ws_debug) do |ws|
         
         ws.onopen {
           # Someone opened a connection !!
