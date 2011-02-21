@@ -1,4 +1,5 @@
 require 'em/channel'
+require 'Poussr/logger'
 
 module Poussr
 
@@ -23,7 +24,7 @@ module Poussr
     #  }
     #
     def dispatch(event_name,body)
-	puts "FRED: Get #{event_name} --> dispatching ..."
+      Poussr.logger.info "Dispatching #{event_name} ..."
       evt = {
         'channel' => self.name,
         'event' => event_name,

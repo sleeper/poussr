@@ -1,11 +1,12 @@
 require 'eventmachine'
 require 'poussr/channel'
+require 'poussr/logging'
 
 module Poussr
   class WSHandler
 
     def self.subscribe(ws, channel_name)
-      puts "FRED: subscription to channel: #{channel_name} received"
+      Poussr.logger.info "Subscription to channel: #{channel_name} received"
       channel = Channel.find_or_create( channel_name)
       sock_id = channel.em_channel.subscribe {|msg| ws.send msg }
     end
@@ -31,7 +32,6 @@ module Poussr
             STDERR.puts "Error: message is probably not JSON #{e}"
             msg_event = {'event' => ''} 
           end
-          puts "FRED ==> #{msg_event['data']['channel']}"
 
           case msg_event['event']
           when 'poussr:subscribe'
