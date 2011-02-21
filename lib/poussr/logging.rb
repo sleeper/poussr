@@ -16,6 +16,7 @@ module Poussr
 
   def self.log_level=(level)
     @log_level = level
+    @logger.level = level
   end
   
 end

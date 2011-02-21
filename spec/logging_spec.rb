@@ -27,6 +27,10 @@ describe "Logging" do
   
   describe "#log_level" do
     it "should be changeable" do
+      logger = mock("Logger")
+      Poussr.logger = logger
+      logger.should_receive(:level=).with(Logger::DEBUG)
+      
       Poussr.log_level = Logger::DEBUG
       Poussr.log_level.should == Logger::DEBUG
     end

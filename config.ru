@@ -8,7 +8,10 @@ require ::File.expand_path('../config/environment',  __FILE__)
 
 EventMachine.run do
 
-  cfg = Poussr::Environment.get_config
+  cfg = Poussr::Environment.config
+
+  Poussr.logger = cfg.logger
+  Poussr.log_level = cfg.log_level
   
   Poussr::WSHandler.start cfg
 
