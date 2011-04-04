@@ -1,5 +1,5 @@
 require 'em/channel'
-require 'Poussr/logger'
+require 'poussr/logging'
 
 module Poussr
 
