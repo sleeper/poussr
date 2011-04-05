@@ -1,4 +1,5 @@
 require 'em/channel'
+require 'poussr/logging'
 
 module Poussr
 
@@ -9,7 +10,6 @@ module Poussr
     attr_reader :name, :em_channel
     
     def initialize( name )
-      puts "FRED: Creating channel #{name}"
       @name = name
       @em_channel = EM::Channel.new
       store
@@ -24,6 +24,7 @@ module Poussr
     #  }
     #
     def dispatch(event_name,body)
+      Poussr.logger.info "Dispatching #{event_name} ..."
       evt = {
         'channel' => self.name,
         'event' => event_name,
