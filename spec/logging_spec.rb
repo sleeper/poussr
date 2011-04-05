@@ -5,6 +5,9 @@ require 'stringio'
 
 
 describe "Logging" do
+    after(:all) do
+      Poussr.logger = nil
+    end
 
   describe "defaults" do
     it "should have a default logger" do
@@ -26,11 +29,14 @@ describe "Logging" do
   end
   
   describe "#log_level" do
+    before(:each) do
+      @logger_mock = mock("Logger")      
+    end
+       
     it "should be changeable" do
-      logger = mock("Logger")
-      Poussr.logger = logger
-      logger.should_receive(:level=).with(Logger::DEBUG)
-      
+       Poussr.logger = @logger_mock
+     @logger_mock.should_receive(:level=).with(Logger::DEBUG)
+
       Poussr.log_level = Logger::DEBUG
       Poussr.log_level.should == Logger::DEBUG
     end

@@ -1,4 +1,4 @@
-require 'em/channel'
+require 'eventmachine'
 require 'poussr/logging'
 
 module Poussr

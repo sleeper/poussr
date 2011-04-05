@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 require 'poussr/channel'
 require 'eventmachine'
+require 'json'
 
 describe "Channel" do
 
